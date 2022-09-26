@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import { userActions } from '../_actions';
@@ -20,7 +20,11 @@ class LoginPage extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
-
+    // componentDidMount(){
+    //     setTimeout(()=>{
+           
+    //     },5000)
+    // };
     handleChange(e) {
         const { name, value } = e.target;
         this.setState({ [name]: value });
@@ -30,10 +34,13 @@ class LoginPage extends React.Component {
         e.preventDefault();
 
         this.setState({ submitted: true });
+        
         const { username, password } = this.state;
         if (username && password) {
             this.props.login(username, password);
+            
         }
+        this.props.navigate("/Audit"); 
     }
 
     render() {
@@ -68,6 +75,10 @@ class LoginPage extends React.Component {
             </div>
         );
     }
+}
+function WithNavigate(props) {
+    let navigate = useNavigate();
+    return <LoginPage {...props} navigate={navigate} />
 }
 
 function mapState(state) {
